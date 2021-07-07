@@ -9,7 +9,21 @@ import {
 } from "react-native";
 import { Menu, TextInput, TouchableRipple, useTheme } from "react-native-paper";
 
+declare module "react" {
+  function forwardRef<T, P = {}>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+}
+
 type Without<T, K> = Pick<T, Exclude<keyof T, K>>;
+
+export type DropDownListItem<T> = {
+  label: string;
+  value: T;
+  custom?: ReactNode;
+};
+
+export type DropDownList<T> = ReadonlyArray<DropDownListItem<T>>;
 
 export interface DropDownPropsInterface<T> {
   visible: boolean;
@@ -21,11 +35,7 @@ export interface DropDownPropsInterface<T> {
   placeholder?: string | undefined;
   mode?: "outlined" | "flat" | undefined;
   inputProps?: TextInputPropsWithoutTheme;
-  list: ReadonlyArray<{
-    label: string;
-    value: T;
-    custom?: ReactNode;
-  }>;
+  list: DropDownList<T>;
   dropDownContainerMaxHeight?: number;
   activeColor?: string;
   theme?: ReactNativePaper.Theme;
