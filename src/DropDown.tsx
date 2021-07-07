@@ -94,7 +94,7 @@ const DropDownComponent = <T extends unknown>(
       theme={theme}
       anchor={
         <TouchableRipple ref={ref} onPress={showDropDown} onLayout={onLayout}>
-          <View pointerEvents={"none"}>
+          <View style={containerStyle} pointerEvents={"none"}>
             <TextInput
               value={displayValue}
               mode={mode}
@@ -113,7 +113,6 @@ const DropDownComponent = <T extends unknown>(
           width: inputLayout?.width,
           marginTop: inputLayout?.height,
         },
-        containerStyle,
       ]}
     >
       <ScrollView style={{ maxHeight: dropDownContainerMaxHeight || 200 }}>

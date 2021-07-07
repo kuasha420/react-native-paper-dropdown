@@ -21,7 +21,7 @@ const DropDownComponent = (props, ref) => {
         }
     }, [list, value]);
     return (<Menu visible={visible} onDismiss={onDismiss} theme={theme} anchor={<TouchableRipple ref={ref} onPress={showDropDown} onLayout={onLayout}>
-          <View pointerEvents={"none"}>
+          <View style={containerStyle} pointerEvents={"none"}>
             <TextInput value={displayValue} mode={mode} label={label} placeholder={placeholder} pointerEvents={"none"} theme={theme} {...inputProps}/>
           </View>
         </TouchableRipple>} style={[
@@ -30,7 +30,6 @@ const DropDownComponent = (props, ref) => {
                 width: inputLayout?.width,
                 marginTop: inputLayout?.height,
             },
-            containerStyle,
         ]}>
       <ScrollView style={{ maxHeight: dropDownContainerMaxHeight || 200 }}>
         {list.map((_item, _index) => (<Menu.Item key={_index} titleStyle={{
