@@ -1,14 +1,13 @@
+import React, { forwardRef, ReactNode, useEffect, useState } from "react";
 import {
   LayoutChangeEvent,
   ScrollView,
+  StyleProp,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
 } from "react-native";
 import { Menu, TextInput, TouchableRipple, useTheme } from "react-native-paper";
-import React, { ReactNode, forwardRef, useEffect, useState } from "react";
-
-import { TextInputProps } from "react-native-paper/lib/typescript/src/components/TextInput/TextInput";
-import { Theme } from "react-native-paper/lib/typescript/src/types";
 
 type Without<T, K> = Pick<T, Exclude<keyof T, K>>;
 
@@ -29,10 +28,14 @@ export interface DropDownPropsInterface {
   }>;
   dropDownContainerMaxHeight?: number;
   activeColor?: string;
-  theme?: Theme;
+  theme?: ReactNativePaper.Theme;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-type TextInputPropsWithoutTheme = Without<TextInputProps, "theme">;
+type TextInputPropsWithoutTheme = Without<
+  React.ComponentProps<typeof TextInput>,
+  "theme"
+>;
 
 const DropDown = forwardRef<TouchableWithoutFeedback, DropDownPropsInterface>(
   (props, ref) => {
@@ -51,6 +54,7 @@ const DropDown = forwardRef<TouchableWithoutFeedback, DropDownPropsInterface>(
       list,
       dropDownContainerMaxHeight,
       theme,
+      containerStyle,
     } = props;
     const [displayValue, setDisplayValue] = useState("");
     const [inputLayout, setInputLayout] = useState({
@@ -91,22 +95,26 @@ const DropDown = forwardRef<TouchableWithoutFeedback, DropDownPropsInterface>(
             </View>
           </TouchableRipple>
         }
-        style={{
-          maxWidth: inputLayout?.width,
-          width: inputLayout?.width,
-          marginTop: inputLayout?.height,
-        }}
+        style={[
+          {
+            maxWidth: inputLayout?.width,
+            width: inputLayout?.width,
+            marginTop: inputLayout?.height,
+          },
+          containerStyle,
+        ]}
       >
         <ScrollView style={{ maxHeight: dropDownContainerMaxHeight || 200 }}>
           {list.map((_item, _index) => (
             <Menu.Item
               key={_index}
-              theme={theme}
               titleStyle={{
                 color:
                   value === _item.value
                     ? activeColor || (theme || activeTheme).colors.primary
-                    : ((theme || activeTheme) ? (theme || activeTheme).colors.text : undefined),
+                    : theme || activeTheme
+                    ? (theme || activeTheme).colors.text
+                    : undefined,
               }}
               onPress={() => {
                 setValue(_item.value);
