@@ -2,19 +2,19 @@ import React, { ReactNode } from "react";
 import { StyleProp, TouchableWithoutFeedback, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";
 declare type Without<T, K> = Pick<T, Exclude<keyof T, K>>;
-export interface DropDownPropsInterface {
+export interface DropDownPropsInterface<T> {
     visible: boolean;
     onDismiss: () => void;
     showDropDown: () => void;
-    value: string | number | undefined;
-    setValue: (_value: string | number) => void;
+    value: T;
+    setValue?: (_value: T) => void;
     label?: string | undefined;
     placeholder?: string | undefined;
     mode?: "outlined" | "flat" | undefined;
     inputProps?: TextInputPropsWithoutTheme;
-    list: Array<{
+    list: ReadonlyArray<{
         label: string;
-        value: string | number;
+        value: T;
         custom?: ReactNode;
     }>;
     dropDownContainerMaxHeight?: number;
@@ -23,5 +23,5 @@ export interface DropDownPropsInterface {
     containerStyle?: StyleProp<ViewStyle>;
 }
 declare type TextInputPropsWithoutTheme = Without<React.ComponentProps<typeof TextInput>, "theme">;
-declare const DropDown: React.ForwardRefExoticComponent<DropDownPropsInterface & React.RefAttributes<TouchableWithoutFeedback>>;
+declare const DropDown: React.ForwardRefExoticComponent<DropDownPropsInterface<unknown> & React.RefAttributes<TouchableWithoutFeedback>>;
 export default DropDown;

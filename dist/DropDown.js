@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { ScrollView, View, } from "react-native";
 import { Menu, TextInput, TouchableRipple, useTheme } from "react-native-paper";
-const DropDown = forwardRef((props, ref) => {
+const DropDownComponent = (props, ref) => {
     const activeTheme = useTheme();
     const { visible, onDismiss, showDropDown, value, setValue, activeColor, mode, label, placeholder, inputProps, list, dropDownContainerMaxHeight, theme, containerStyle, } = props;
     const [displayValue, setDisplayValue] = useState("");
@@ -21,10 +21,10 @@ const DropDown = forwardRef((props, ref) => {
         }
     }, [list, value]);
     return (<Menu visible={visible} onDismiss={onDismiss} theme={theme} anchor={<TouchableRipple ref={ref} onPress={showDropDown} onLayout={onLayout}>
-            <View pointerEvents={"none"}>
-              <TextInput value={displayValue} mode={mode} label={label} placeholder={placeholder} pointerEvents={"none"} theme={theme} {...inputProps}/>
-            </View>
-          </TouchableRipple>} style={[
+          <View pointerEvents={"none"}>
+            <TextInput value={displayValue} mode={mode} label={label} placeholder={placeholder} pointerEvents={"none"} theme={theme} {...inputProps}/>
+          </View>
+        </TouchableRipple>} style={[
             {
                 maxWidth: inputLayout?.width,
                 width: inputLayout?.width,
@@ -32,20 +32,21 @@ const DropDown = forwardRef((props, ref) => {
             },
             containerStyle,
         ]}>
-        <ScrollView style={{ maxHeight: dropDownContainerMaxHeight || 200 }}>
-          {list.map((_item, _index) => (<Menu.Item key={_index} titleStyle={{
+      <ScrollView style={{ maxHeight: dropDownContainerMaxHeight || 200 }}>
+        {list.map((_item, _index) => (<Menu.Item key={_index} titleStyle={{
                 color: value === _item.value
                     ? activeColor || (theme || activeTheme).colors.primary
                     : theme || activeTheme
                         ? (theme || activeTheme).colors.text
                         : undefined,
             }} onPress={() => {
-                setValue(_item.value);
+                setValue?.(_item.value);
                 if (onDismiss) {
                     onDismiss();
                 }
             }} title={_item.custom || _item.label} style={{ width: inputLayout?.width }}/>))}
-        </ScrollView>
-      </Menu>);
-});
+      </ScrollView>
+    </Menu>);
+};
+const DropDown = forwardRef(DropDownComponent);
 export default DropDown;
