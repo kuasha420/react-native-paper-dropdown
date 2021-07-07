@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { TextInputProps } from "react-native-paper/lib/typescript/src/components/TextInput/TextInput";
-import { Theme } from "react-native-paper/lib/typescript/src/types";
+import React, { ReactNode } from "react";
+import { StyleProp, TouchableWithoutFeedback, ViewStyle } from "react-native";
+import { TextInput } from "react-native-paper";
 declare type Without<T, K> = Pick<T, Exclude<keyof T, K>>;
 export interface DropDownPropsInterface {
     visible: boolean;
@@ -19,8 +19,9 @@ export interface DropDownPropsInterface {
     }>;
     dropDownContainerMaxHeight?: number;
     activeColor?: string;
-    theme?: Theme;
+    theme?: ReactNativePaper.Theme;
+    containerStyle?: StyleProp<ViewStyle>;
 }
-declare type TextInputPropsWithoutTheme = Without<TextInputProps, "theme">;
-declare const DropDown: any;
+declare type TextInputPropsWithoutTheme = Without<React.ComponentProps<typeof TextInput>, "theme">;
+declare const DropDown: React.ForwardRefExoticComponent<DropDownPropsInterface & React.RefAttributes<TouchableWithoutFeedback>>;
 export default DropDown;
